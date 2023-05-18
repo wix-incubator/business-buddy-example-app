@@ -1,0 +1,30 @@
+{
+  "name": "business-buddy",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@wix/api-client": "^1.1.70",
+    "@wix/dashboard-sdk": "^3.53.0",
+    "@wix/design-system": "^1.0.0",
+    "@wix/stores": "^1.0.61",
+    "@wix/wix-ui-icons-common": "^3.0.34",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-query": "^3.39.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@wix/cli": "^1.0.71",
+    "@wix/cli-app": "^1.0.71",
+    "typescript": "^5.0.2"
+  },
+  "scripts": {
+    "build": "wix app build",
+    "create-version": "wix app create-version",
+    "dev": "wix app dev",
+    "preview": "wix app preview",
+    "serve": "wix app serve",
+    "typecheck": "tsc --noEmit"
+  }
+}
