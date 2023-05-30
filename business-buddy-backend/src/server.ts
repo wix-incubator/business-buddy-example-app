@@ -49,7 +49,7 @@ app.get("/settings", async function (req, res) {
   const { instanceId } = authorizeWixRequest(req);
   const behaviorDirective =
     getBehaviorDirective(instanceId) ??
-    "You always end your messages with a spanish goodbye.";
+    "You always end your messages with a Spanish goodbye.";
   res.send({ behaviorDirective });
 });
 
