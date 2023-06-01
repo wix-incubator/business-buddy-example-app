@@ -15,8 +15,8 @@
   "devDependencies": {
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@wix/cli": "^1.0.71",
-    "@wix/cli-app": "^1.0.71",
+    "@wix/cli": "^1.0.74",
+    "@wix/cli-app": "^1.0.74",
     "typescript": "^5.0.2"
   },
   "scripts": {
