@@ -1,4 +1,4 @@
-import { showToast } from '@wix/dashboard-sdk';
+import { useDashboard } from '@wix/dashboard-react';
 import {
   Button,
   Card,
@@ -17,6 +17,8 @@ export default withProviders(function SettingsPage() {
   const { data } = useQuery<{
     behaviorDirective: string;
   }>('settings', async () => fetchWithWixInstance(`settings`, 'GET'));
+
+  const { showToast } = useDashboard();
 
   const mutation = useMutation(
     async (newBehaviorDirective: string) =>

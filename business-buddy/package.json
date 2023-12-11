@@ -3,21 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@wix/api-client": "^1.1.70",
-    "@wix/dashboard-sdk": "^3.53.0",
+    "@wix/sdk-react": "^0.3.8",
+    "@wix/dashboard-react": "^1.0.4",
     "@wix/design-system": "^1.0.0",
-    "@wix/stores": "^1.0.61",
+    "@wix/stores": "^1.0.105",
     "@wix/wix-ui-icons-common": "^3.0.34",
-    "react": "^18",
-    "react-dom": "^18",
     "react-query": "^3.39.3"
   },
   "devDependencies": {
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@wix/cli": "^1.0.74",
-    "@wix/cli-app": "^1.0.74",
-    "typescript": "^5.0.2"
+    "@types/react": "^16.0.0",
+    "@wix/cli": "^1.0.88",
+    "@wix/cli-app": "^1.0.88",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "build": "wix app build",

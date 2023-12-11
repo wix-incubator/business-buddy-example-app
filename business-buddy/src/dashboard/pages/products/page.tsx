@@ -1,5 +1,3 @@
-import { createClient } from '@wix/api-client';
-import { authStrategy } from '@wix/dashboard-sdk';
 import {
   AutoComplete,
   Card,
@@ -15,13 +13,7 @@ import { useQuery } from 'react-query';
 import { withProviders } from '../../withProviders';
 import { ProductChat } from './ProductChat';
 import './styles.global.css';
-
-const wixClient = createClient({
-  auth: authStrategy(),
-  modules: {
-    products,
-  },
-});
+import { useWixModules } from '@wix/sdk-react';
 
 export default withProviders(function ProductsPage() {
   const [currentProduct, setCurrentProduct] = React.useState<
@@ -29,12 +21,14 @@ export default withProviders(function ProductsPage() {
   >();
   const [searchQuery, setSearchQuery] = React.useState('');
 
+  const { queryProducts } = useWixModules(products);
+
   const {
-    data: products,
+    data: storeProducts,
     isLoading,
     error,
   } = useQuery(['products', searchQuery], () =>
-    wixClient.products.queryProducts().startsWith('name', searchQuery).find()
+    queryProducts().startsWith('name', searchQuery).find()
   );
 
   if (error) return <div>Something went wrong</div>;
@@ -52,13 +46,13 @@ export default withProviders(function ProductsPage() {
                   placeholder='Select a product to chat about'
                   size='large'
                   status={isLoading ? 'loading' : undefined}
-                  options={products?.items.map((product) => ({
+                  options={storeProducts?.items.map((product) => ({
                     id: product._id!,
                     value: product.name,
                   }))}
                   onSelect={(e) => {
                     setCurrentProduct(
-                      products!.items.find(
+                      storeProducts!.items.find(
                         (product) => product._id === (e.id as string)
                       )
                     );
