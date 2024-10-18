@@ -9,22 +9,33 @@ import {
 } from '@wix/design-system';
 import '@wix/design-system/styles.global.css';
 import React from 'react';
+import { httpClient } from '@wix/essentials';
 import { useMutation, useQuery } from 'react-query';
-import { fetchWithWixInstance } from '../../utils';
 import { withProviders } from '../../withProviders';
 
+async function getSettings() {
+  const data = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`);
+  return data.json();
+}
+
+async function saveSettings(behaviorDirective: string) {
+  console.log({ behaviorDirective });
+  return httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`, {
+    method: 'POST',
+    body: JSON.stringify({ behaviorDirective }),
+  });
+}
+
 export default withProviders(function SettingsPage() {
-  const { data } = useQuery<{
-    behaviorDirective: string;
-  }>('settings', async () => fetchWithWixInstance(`settings`, 'GET'));
+  const { data } = useQuery('settings', getSettings);
+
+  console.log('render', {data})
 
   const { showToast } = useDashboard();
 
   const mutation = useMutation(
     async (newBehaviorDirective: string) =>
-      fetchWithWixInstance(`settings`, 'POST', {
-        behaviorDirective: newBehaviorDirective,
-      }),
+      saveSettings(newBehaviorDirective),
     {
       onSuccess: () => {
         showToast({
