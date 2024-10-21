@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@wix/app-management": "^1.0.38",
     "@wix/dashboard-react": "^1.0.4",
     "@wix/data": "^1.0.160",
     "@wix/design-system": "^1.0.0",

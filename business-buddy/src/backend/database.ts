@@ -1,72 +1,14 @@
-import { items } from '@wix/data';
+import { appInstances } from '@wix/app-management';
 
-interface DataItem {
-    _id: string;
-    data: Record<string, any>;
+// This is a mock implementation of a collection of behavior directives.
+// It is used to store the behavior directive for each instance of the app.
+
+export async function getBehaviorDirective() {
+  const { instance } = await appInstances.getAppInstance();
+  return `This is the behavior directive of intanceId: ${instance.instanceId}. In a real implementation, this would be stored in a database.`
 }
 
-interface GetDataOptions {
-    dataCollectionId: string 
-}
-
-// FIXME: Queries to data collection requires a user to create a collection in the Editor.
-// FIXME: User also needs to have proper permissions in order to operate items in a collection.
-export async function getDataFromCollection({
-    dataCollectionId
-}: GetDataOptions) {
-  try {
-      return items.queryDataItems({
-        dataCollectionId,
-      }).find();
-  } catch (error) {
-    console.error('Error getting data from collection', error);
-  }
-}
-
-interface UpdateDataOptions {
-    dataCollectionId: string
-    item: DataItem;
-}
-
-export async function getItemFromCollection({
-    dataCollectionId,
-    itemId
-}: GetDataOptions & { itemId: string }) {
-    try {
-        const {data} = await items.getDataItem(itemId, {dataCollectionId});
-        return data;
-    } catch (error) {
-        console.error('Error getting item from collection', error);
-    }
-}
-
-export async function updateDataInCollection({
-    dataCollectionId,
-    item,
-}: UpdateDataOptions) {
-  const collection = await getDataFromCollection({ dataCollectionId });
-  const existsInCollection = item._id && collection?.items.find(existingItem => existingItem._id === item._id);
-
-  if (item._id && existsInCollection) {
-    await items.updateDataItem(item._id, {
-      dataCollectionId,
-      dataItem: {
-        data: {
-          _id: item._id,
-          ...item.data
-        },
-      },
-    });
-  } else {
-    await items.insertDataItem({
-      dataCollectionId,
-      dataItem: {
-        _id: item._id ?? undefined,
-        data: {
-          _id: item._id ?? undefined,
-          ...item.data
-        },
-      },
-    });
-  };
+export async function saveBehaviorDirective(directive) {
+  // store data for this instance id
+  console.log(`Storing directive: ${directive}`)
 }
