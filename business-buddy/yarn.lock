@@ -464,6 +464,78 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.8.tgz#ce5ace04cfeabe7ef87c0091e50752e36707deff"
   integrity sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==
 
+"@wix/app-management@^1.0.38":
+  version "1.0.39"
+  resolved "https://registry.yarnpkg.com/@wix/app-management/-/app-management-1.0.39.tgz#771e4102920b25902251c5b393fb234b3be25bd6"
+  integrity sha512-5dwLE5Mz5TPBK3JuAwI3+5XL6XkP2pqXa2BBRRVx/6TBDXnLL4mtidap3HATKSQKZ7VCkAjzI9ZMeSUm56d6UQ==
+  dependencies:
+    "@wix/app-management_app-instances" "1.0.22"
+    "@wix/app-management_app-plans" "1.0.21"
+    "@wix/app-management_bi-events" "1.0.20"
+    "@wix/app-management_billing" "1.0.21"
+    "@wix/app-management_custom-charges" "1.0.18"
+    "@wix/app-management_embedded-scripts" "1.0.17"
+
+"@wix/app-management_app-instances@1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_app-instances/-/app-management_app-instances-1.0.22.tgz#709a1bdcf6a59bed5af10825592a67f8d137b339"
+  integrity sha512-5NPwpOGF+DzI5A7GMg8Q2f3GIllU68yAnx9d1J0gOZSCK4z12T8jB4Ny2b4vk1DKb7J/l1kCtrwylaa78+0Ghg==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
+"@wix/app-management_app-plans@1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_app-plans/-/app-management_app-plans-1.0.21.tgz#d3aa0e2198cad21ffd53ea22e9e13652118691a1"
+  integrity sha512-ae3+XXOTr1kCGfyd6Kodm80eGmMZTtkK9KbRemGhappe7vPDRHxMDoAFW8+bpqmI8SpLm+3BUhA21v2X7Ni4xg==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
+"@wix/app-management_bi-events@1.0.20":
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_bi-events/-/app-management_bi-events-1.0.20.tgz#7a5bb04f416ee706df1561b837cb2e0c8ca73564"
+  integrity sha512-QeT3b55TdWY+qiniYzkgDQH6qT/dcmzIexU6/sIAa/vyQAh+DbHZvPxOzEtNaAfzzugeI0vl9Fgt/gozfI/ITA==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
+"@wix/app-management_billing@1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_billing/-/app-management_billing-1.0.21.tgz#a111f1bd74f4987054758dcfc26d6dff87df5c3f"
+  integrity sha512-qOsTkvrl93I1/gOYykR5LuNbrnYBdaNLkw40EhentocEIQWOI687KZLzWuf21+l10Rk7lulY1rLDVBbqEM5t4A==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
+"@wix/app-management_custom-charges@1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_custom-charges/-/app-management_custom-charges-1.0.18.tgz#474b4ee6485188860e0fbf9d303d88f89bde3f7e"
+  integrity sha512-nHqQoItgUO+4ZGfnDCBrzRNqjWDCR50QrEPeLzFhLcevmNmsF1pLixlS5+92mEOZvNy+OP5uEa/K6n7PVjzAvQ==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
+"@wix/app-management_embedded-scripts@1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@wix/app-management_embedded-scripts/-/app-management_embedded-scripts-1.0.17.tgz#0969a97fd62644728fbab7e765c197c5903d3f89"
+  integrity sha512-ZN5aLVwKuFA6e0CICmPuE+Hl+1+RUg/C62fsT9ekw++rHlegit3Iv9gQvpJlCZ+UcbqmmKAQCHe4KOCcFUZDxg==
+  dependencies:
+    "@wix/metro-runtime" "^1.1792.0"
+    "@wix/motion-edm-autogen-query-wrapper" "^1.0.37"
+    "@wix/sdk-runtime" "^0.3.14"
+    "@wix/sdk-types" "^1.12.3"
+
 "@wix/cli-app@^1.0.88":
   version "1.1.49"
   resolved "https://registry.yarnpkg.com/@wix/cli-app/-/cli-app-1.1.49.tgz#7433a2f5c3a223f5380c66a350ded6cd22bf4ac1"

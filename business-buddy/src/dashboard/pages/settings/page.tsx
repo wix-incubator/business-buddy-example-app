@@ -2,10 +2,12 @@ import { useDashboard } from '@wix/dashboard-react';
 import {
   Button,
   Card,
+  EmptyState,
   FormField,
   InputArea,
   Loader,
   Page,
+  SectionHeader,
 } from '@wix/design-system';
 import '@wix/design-system/styles.global.css';
 import React from 'react';
@@ -15,11 +17,11 @@ import { withProviders } from '../../withProviders';
 
 async function getSettings() {
   const data = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`);
-  return data.json();
+  const settings = await data.json();
+  return settings;
 }
 
 async function saveSettings(behaviorDirective: string) {
-  console.log({ behaviorDirective });
   return httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`, {
     method: 'POST',
     body: JSON.stringify({ behaviorDirective }),
@@ -27,10 +29,8 @@ async function saveSettings(behaviorDirective: string) {
 }
 
 export default withProviders(function SettingsPage() {
-  const { data } = useQuery('settings', getSettings);
-
-  console.log('render', {data})
-
+  const { data, isLoading, isError } = useQuery('settings', getSettings);
+  const [behaviorDirective, setBehaviorDirective] = React.useState(data?.behaviorDirective);
   const { showToast } = useDashboard();
 
   const mutation = useMutation(
@@ -46,7 +46,26 @@ export default withProviders(function SettingsPage() {
     }
   );
 
-  const [behaviorDirective, setBehaviorDirective] = React.useState('');
+
+  if (isLoading) {
+    return (
+      <Page>
+        <Page.Content>
+          <Loader />
+        </Page.Content>
+      </Page>
+    );
+  }
+
+  if (isError) {
+    return (
+      <EmptyState
+        theme="page-no-border"
+        title="We couldn't load settings"
+        subtitle="Looks like there was a technical issue."
+      />
+    );
+  }
 
   return (
     <Page>
@@ -67,7 +86,7 @@ export default withProviders(function SettingsPage() {
               </Button>
             }
           ></Card.Header>
-          <Card.Subheader title='Give Business Buddy directives on how to answer your questions' />
+          <SectionHeader title='Give Business Buddy directives on how to answer your questions' />
           <Card.Content>
             <FormField label='Directive'>
               <InputArea

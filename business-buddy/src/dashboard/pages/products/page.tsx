@@ -1,9 +1,9 @@
 import {
   AutoComplete,
   Card,
+  Layout,
   Cell,
   Divider,
-  Layout,
   Page,
 } from '@wix/design-system';
 import '@wix/design-system/styles.global.css';

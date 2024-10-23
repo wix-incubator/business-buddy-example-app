@@ -1,32 +1,41 @@
 import { getBehaviorDirective, saveBehaviorDirective } from "../../database";
 import { appInstances } from '@wix/app-management';
 
-export async function GET(req: Request) {
-  const instanceId = req.headers.get('Authorization');
+export async function GET() {
+  try {
+    const { instance } = await appInstances.getAppInstance();
 
-  if (!instanceId) {
-    return new Response('Unauthorized', { status: 401 });
+    if (!instance?.instanceId) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    const behaviorDirective = await getBehaviorDirective(instance.instanceId)
+
+    return new Response(
+      JSON.stringify({behaviorDirective})
+    );
+  } catch (error) {
+    console.log(`Error getting settings for an instance`, error);
+    return new Response('Error', { status: 500 });
   }
-
-  const settings = await getBehaviorDirective()
-  return new Response(JSON.stringify(settings));
 }
 
 export async function POST(req: Request) {
   const settingsUpdate = await req.json();
-  const { instance } = await appInstances.getAppInstance();
-  const { instanceId } = instance;
-  
-  if (!instanceId) {
-    return new Response('Unauthorized', { status: 401 });
-  }
+  console.log({settingsUpdate});
 
   try {
-    console.log('Updating settings for', instanceId, settingsUpdate);
-    await saveBehaviorDirective(settingsUpdate);
+    const { instance } = await appInstances.getAppInstance();
+    
+    if (!instance?.instanceId) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    console.log('Updating settings for', instance.instanceId, settingsUpdate);
+    await saveBehaviorDirective(instance.instanceId, settingsUpdate);
     return new Response('Success');
   } catch (error) {
-    console.error(`Error updating settings for ${instanceId}`, error);
+    console.error('Error updating settings', error);
     return new Response('Error', { status: 500 });
   }
 }
