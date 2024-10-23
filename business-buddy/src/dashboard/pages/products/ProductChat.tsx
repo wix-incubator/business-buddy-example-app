@@ -1,44 +1,51 @@
 import { Text, Box, Card, Input, Loader } from "@wix/design-system";
 import { products } from "@wix/stores";
-import React from "react";
+import React, { useCallback } from "react";
 import * as Icons from "@wix/wix-ui-icons-common";
 import styles from "./ProductChat.module.css";
-import { fetchWithWixInstance } from "../../utils";
+import { httpClient } from "@wix/essentials";
 
 type Message = {
   author: "Business Buddy" | "User";
   text: string;
 };
 
-export function ProductChat(props: { product: products.Product }) {
-  const [isWaitingForBusinessBuddy, setIsWaitingForBusinessBuddy] =
-    React.useState(false);
-  const [messageDraft, setMessageDraft] = React.useState<string | undefined>(
-    undefined
-  );
-  const [chatMessages, setChatMessages] = React.useState([] as Message[]);
+async function submitProductChatMessage(
+  messages: Message[],
+  product: products.Product
+) {
+  const response = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/chat`, {
+    method: "POST",
+    body: JSON.stringify({
+      messages, 
+      product,
+    }),
+  });
+  const message = await response.json();
+  return message; 
+}
 
-  async function submitMessage() {
+export function ProductChat(props: { product: products.Product }) {
+  const [isWaitingForReply, setIsWaitingForReply] = React.useState(false);
+  const [messageDraft, setMessageDraft] = React.useState<string | undefined>(undefined);
+  const [chatMessages, setChatMessages] = React.useState<Message[]>([]);
+
+  const submitMessage = useCallback(async () => {
     const newMessage: Message = {
       author: "User",
       text: messageDraft ?? "",
     };
-    setChatMessages((state) => [...state, newMessage]);
+    const messages = chatMessages.concat(newMessage);
+    setChatMessages((state) => state.concat(newMessage));
     setMessageDraft("");
-    setIsWaitingForBusinessBuddy(true);
-    const { message } = await fetchWithWixInstance(`chat/product`, "POST", {
-      messages: [...chatMessages, newMessage],
-      product: JSON.stringify(props.product, null, 2),
-    });
-    setChatMessages((state) => [
-      ...state,
-      {
-        author: "Business Buddy",
-        text: message,
-      },
-    ]);
-    setIsWaitingForBusinessBuddy(false);
-  }
+    setIsWaitingForReply(true);
+    const { message: text } = await submitProductChatMessage(messages, props.product);
+    setChatMessages((messages) => messages.concat({
+      author: "Business Buddy",
+      text,
+    }));
+    setIsWaitingForReply(false);
+  }, [chatMessages, messageDraft, props.product]);
 
   return (
     <Card>
@@ -47,35 +54,33 @@ export function ProductChat(props: { product: products.Product }) {
         subtitle={`SKU: ${props.product.sku}`}
       />
       <Card.Content>
-        <Box width={"100%"}>
+        {chatMessages.map((message) => (
+          <Box>
+            <Text tabName="p">
+              <strong>{message.author}</strong>: {message.text}
+            </Text>
+          </Box>
+        ))}
+        <Box width="100%" marginTop="SP6" >
           <Input
-            disabled={isWaitingForBusinessBuddy}
+            placeholder="Ask Business Buddy something..."
             className={styles.userInput}
+            prefix={isWaitingForReply && (
+              <Input.Affix>
+                <Loader size="tiny" />
+              </Input.Affix>
+            )}
             suffix={
               <Input.IconAffix>
                 <Icons.Send onClick={submitMessage} />
               </Input.IconAffix>
             }
-            placeholder="Ask Business Buddy something..."
-            onChange={(e) => {
-              setMessageDraft(e.target.value);
-            }}
+            disabled={isWaitingForReply}
+            onChange={(e) => setMessageDraft(e.target.value)}
             value={messageDraft}
             onEnterPressed={submitMessage}
           />
         </Box>
-        {chatMessages.map((message) => (
-          <Box>
-            <Text tabName="p">
-              <b>{message.author}</b>: {message.text}
-            </Text>
-          </Box>
-        ))}
-        {isWaitingForBusinessBuddy && (
-          <Box align="center" padding="8px 0px">
-            <Loader size="small" />
-          </Box>
-        )}
       </Card.Content>
     </Card>
   );

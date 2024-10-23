@@ -11,6 +11,7 @@
     "@wix/sdk-react": "^0.3.8",
     "@wix/stores": "^1.0.105",
     "@wix/wix-ui-icons-common": "^3.0.34",
+    "openai": "^4.68.2",
     "react-query": "^3.39.3"
   },
   "devDependencies": {
