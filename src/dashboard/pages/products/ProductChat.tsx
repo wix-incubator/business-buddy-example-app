@@ -12,22 +12,27 @@ type Message = {
 
 async function submitProductChatMessage(
   messages: Message[],
-  product: products.Product
+  product: products.Product,
 ) {
-  const response = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/chat`, {
-    method: "POST",
-    body: JSON.stringify({
-      messages, 
-      product,
-    }),
-  });
+  const response = await httpClient.fetchWithAuth(
+    `${import.meta.env.BASE_API_URL}/chat`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        messages,
+        product,
+      }),
+    },
+  );
   const message = await response.json();
-  return message; 
+  return message;
 }
 
 export function ProductChat(props: { product: products.Product }) {
   const [isWaitingForReply, setIsWaitingForReply] = React.useState(false);
-  const [messageDraft, setMessageDraft] = React.useState<string | undefined>(undefined);
+  const [messageDraft, setMessageDraft] = React.useState<string | undefined>(
+    undefined,
+  );
   const [chatMessages, setChatMessages] = React.useState<Message[]>([]);
 
   const submitMessage = useCallback(async () => {
@@ -39,11 +44,16 @@ export function ProductChat(props: { product: products.Product }) {
     setChatMessages((state) => state.concat(newMessage));
     setMessageDraft("");
     setIsWaitingForReply(true);
-    const { message: text } = await submitProductChatMessage(messages, props.product);
-    setChatMessages((messages) => messages.concat({
-      author: "Business Buddy",
-      text,
-    }));
+    const { message: text } = await submitProductChatMessage(
+      messages,
+      props.product,
+    );
+    setChatMessages((messages) =>
+      messages.concat({
+        author: "Business Buddy",
+        text,
+      }),
+    );
     setIsWaitingForReply(false);
   }, [chatMessages, messageDraft, props.product]);
 
@@ -61,15 +71,17 @@ export function ProductChat(props: { product: products.Product }) {
             </Text>
           </Box>
         ))}
-        <Box width="100%" marginTop="SP6" >
+        <Box width="100%" marginTop="SP6">
           <Input
             placeholder="Ask Business Buddy something..."
             className={styles.userInput}
-            prefix={isWaitingForReply && (
-              <Input.Affix>
-                <Loader size="tiny" />
-              </Input.Affix>
-            )}
+            prefix={
+              isWaitingForReply && (
+                <Input.Affix>
+                  <Loader size="tiny" />
+                </Input.Affix>
+              )
+            }
             suffix={
               <Input.IconAffix>
                 <Icons.Send onClick={submitMessage} />

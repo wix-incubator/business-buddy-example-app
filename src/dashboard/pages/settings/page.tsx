@@ -1,4 +1,4 @@
-import { useDashboard } from '@wix/dashboard-react';
+import { useDashboard } from "@wix/dashboard-react";
 import {
   Button,
   Card,
@@ -8,44 +8,46 @@ import {
   Loader,
   Page,
   SectionHeader,
-} from '@wix/design-system';
-import '@wix/design-system/styles.global.css';
-import React from 'react';
-import { httpClient } from '@wix/essentials';
-import { useMutation, useQuery } from 'react-query';
-import { withProviders } from '../../withProviders';
+} from "@wix/design-system";
+import "@wix/design-system/styles.global.css";
+import React from "react";
+import { httpClient } from "@wix/essentials";
+import { useMutation, useQuery } from "react-query";
+import { withProviders } from "../../withProviders";
 
 async function getSettings() {
-  const data = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`);
+  const data = await httpClient.fetchWithAuth(
+    `${import.meta.env.BASE_API_URL}/settings`,
+  );
   const settings = await data.json();
   return settings;
 }
 
 async function saveSettings(behaviorDirective: string) {
   return httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/settings`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({ behaviorDirective }),
   });
 }
 
 export default withProviders(function SettingsPage() {
-  const { data, isLoading, isError } = useQuery('settings', getSettings);
-  const [behaviorDirective, setBehaviorDirective] = React.useState(data?.behaviorDirective);
+  const { data, isLoading, isError } = useQuery("settings", getSettings);
+  const [behaviorDirective, setBehaviorDirective] = React.useState(
+    data?.behaviorDirective,
+  );
   const { showToast } = useDashboard();
 
   const mutation = useMutation(
-    async (newBehaviorDirective: string) =>
-      saveSettings(newBehaviorDirective),
+    async (newBehaviorDirective: string) => saveSettings(newBehaviorDirective),
     {
       onSuccess: () => {
         showToast({
-          message: 'Changes saved!',
-          type: 'success',
+          message: "Changes saved!",
+          type: "success",
         });
       },
-    }
+    },
   );
-
 
   if (isLoading) {
     return (
@@ -69,30 +71,30 @@ export default withProviders(function SettingsPage() {
 
   return (
     <Page>
-      <Page.Header title='Behavior Settings' />
+      <Page.Header title="Behavior Settings" />
       <Page.Content>
         <Card>
           <Card.Header
-            title='Behavior Directive'
+            title="Behavior Directive"
             suffix={
               <Button
-                size='small'
+                size="small"
                 onClick={() => {
                   mutation.mutate(behaviorDirective);
                 }}
                 disabled={mutation.isLoading}
               >
-                {mutation.isLoading ? <Loader size='tiny' /> : 'Save'}
+                {mutation.isLoading ? <Loader size="tiny" /> : "Save"}
               </Button>
             }
           ></Card.Header>
-          <SectionHeader title='Give Business Buddy directives on how to answer your questions' />
+          <SectionHeader title="Give Business Buddy directives on how to answer your questions" />
           <Card.Content>
-            <FormField label='Directive'>
+            <FormField label="Directive">
               <InputArea
                 placeholder={
                   data?.behaviorDirective ??
-                  'You always end your messages with a Spanish goodbye.'
+                  "You always end your messages with a Spanish goodbye."
                 }
                 rows={4}
                 maxLength={300}
