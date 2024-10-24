@@ -5,7 +5,7 @@
 export async function fetchWithWixInstance(
   relativePath: string,
   method: string,
-  body?: any
+  body?: any,
 ) {
   const res = await fetch(
     `${import.meta.env.VITE_API_BASE_URL}/${relativePath}`,
@@ -16,7 +16,7 @@ export async function fetchWithWixInstance(
         ...(body && { "Content-Type": "application/json" }),
       },
       body: body && JSON.stringify(body),
-    }
+    },
   );
 
   const json = await res.json();
