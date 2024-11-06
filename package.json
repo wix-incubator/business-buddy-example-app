@@ -5,7 +5,6 @@
   "dependencies": {
     "@wix/app-management": "^1.0.38",
     "@wix/dashboard-react": "^1.0.4",
-    "@wix/data": "^1.0.160",
     "@wix/design-system": "^1.0.0",
     "@wix/essentials": "^0.1.8",
     "@wix/sdk-react": "^0.3.8",
