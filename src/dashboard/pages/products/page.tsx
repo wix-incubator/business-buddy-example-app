@@ -91,10 +91,11 @@ export default withProviders(function ProductsPage() {
             </Card>
           </Cell>
 
-          <Divider />
-          <Cell>
-            {currentProduct && <ProductChat product={currentProduct} />}
-          </Cell>
+          {currentProduct && (
+            <Cell>
+              <ProductChat product={currentProduct} />
+            </Cell>
+          )}
         </Layout>
       </Page.Content>
     </Page>

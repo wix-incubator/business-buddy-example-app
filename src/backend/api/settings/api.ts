@@ -11,10 +11,10 @@ export async function GET() {
 
     const behaviorDirective = await getBehaviorDirective(instance.instanceId);
 
-    return new Response(JSON.stringify({ behaviorDirective }));
+    return Response.json({ behaviorDirective });
   } catch (error) {
     console.log(`Error getting settings for an instance`, error);
-    return new Response("Error", { status: 500 });
+    return Response.error();
   }
 }
 
@@ -33,6 +33,6 @@ export async function POST(req: Request) {
     return new Response("Success");
   } catch (error) {
     console.error("Error updating settings", error);
-    return new Response("Error", { status: 500 });
+    return Response.error();
   }
 }
