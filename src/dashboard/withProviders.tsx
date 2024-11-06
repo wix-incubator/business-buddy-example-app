@@ -6,7 +6,7 @@ import { withDashboard } from "@wix/dashboard-react";
 export function withProviders(Component: React.ComponentType) {
   return withDashboard(function () {
     return (
-      <WixDesignSystemProvider>
+      <WixDesignSystemProvider features={{ newColorsBranding: true }}>
         <QueryClientProvider client={new QueryClient()}>
           <Component />
         </QueryClientProvider>

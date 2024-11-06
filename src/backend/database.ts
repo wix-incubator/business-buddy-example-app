@@ -2,7 +2,7 @@
 // It is used to store the behavior directive for each instance of the app.
 
 export async function getBehaviorDirective(instanceId: string) {
-  console.log("getBehaviorDirective", instanceId);
+  console.log(`Getting directive for instanceId: ${instanceId)}`);
   // Here you can fetch the data from a database
   return [
     `This is the behavior directive of instanceId: ${instanceId}.`,

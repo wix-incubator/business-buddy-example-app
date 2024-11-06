@@ -20,7 +20,6 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const settingsUpdate = await req.json();
-  console.log({ settingsUpdate });
 
   try {
     const { instance } = await appInstances.getAppInstance();
