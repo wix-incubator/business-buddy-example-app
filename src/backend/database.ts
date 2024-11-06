@@ -12,10 +12,10 @@ export async function getBehaviorDirective(instanceId: string) {
 
 export async function saveBehaviorDirective(
   instanceId: string,
-  directive: string,
+  directives: Record<string, string>,
 ) {
   // Here you can store updated data in a database
   console.log(
-    `Storing directive: '${directive}' for instanceId: ${instanceId}`,
+    `Storing directive: '${JSON.stringify(directives)}' for instanceId: ${instanceId}`,
   );
 }
