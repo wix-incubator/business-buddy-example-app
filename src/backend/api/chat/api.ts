@@ -3,7 +3,7 @@ import { getBehaviorDirective } from "../../database";
 import env from "../../env";
 import OpenAI from "openai";
 
-export interface ChatMessage {
+interface ChatMessage {
   author: "Business Buddy" | "User";
   text: string;
 }
