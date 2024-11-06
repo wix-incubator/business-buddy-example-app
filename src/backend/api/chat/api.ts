@@ -8,7 +8,7 @@ export interface ChatMessage {
   text: string;
 }
 
-export interface ChatRequestBody {
+interface ChatRequestBody {
   messages: ChatMessage[];
   product: string;
 }
