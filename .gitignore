@@ -10,5 +10,3 @@ npm-debug.log*
 # Misc
 .DS_Store
 out
-
-.env.local
