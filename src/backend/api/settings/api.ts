@@ -1,5 +1,5 @@
-import { getBehaviorDirective, saveBehaviorDirective } from "../../database";
 import { appInstances } from "@wix/app-management";
+import { getBehaviorDirective, saveBehaviorDirective } from "../../database";
 
 export async function GET() {
   try {
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
 
     console.log("Updating settings for", instance.instanceId, settingsUpdate);
     await saveBehaviorDirective(instance.instanceId, settingsUpdate);
+    
     return new Response("Success");
   } catch (error) {
     console.error("Error updating settings", error);

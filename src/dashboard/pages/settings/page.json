@@ -1,7 +1,5 @@
 {
+  "$schema": "https://dev.wix.com/wix-cli/schemas/dashboard-page.json",
   "id": "ef49902e-9d06-4392-9344-e494e7911e30",
-  "title": "Behavior Settings",
-  "sidebar": {
-    "categoryId": "a1efac42-a928-470d-8b82-26661b6f906b"
-  }
+  "title": "Behavior Settings"
 }

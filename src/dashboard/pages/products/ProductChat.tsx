@@ -1,53 +1,48 @@
-import { Text, Box, Card, Input, Loader } from "@wix/design-system";
+import React, { useCallback, useState, type FC } from "react";
 import { products } from "@wix/stores";
-import React, { useCallback } from "react";
-import * as Icons from "@wix/wix-ui-icons-common";
-import styles from "./ProductChat.module.css";
 import { httpClient } from "@wix/essentials";
-
-type Message = {
-  author: "Business Buddy" | "User";
-  text: string;
-};
+import { Text, Box, Card, Input, Loader } from "@wix/design-system";
+import * as Icons from "@wix/wix-ui-icons-common";
+import type { ChatMessage } from '../../../types';
+import styles from "./ProductChat.module.css";
 
 async function submitProductChatMessage(
-  messages: Message[],
+  messages: ChatMessage[],
   product: products.Product,
 ) {
-  const response = await httpClient.fetchWithAuth(
-    `${import.meta.env.BASE_API_URL}/chat`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        messages,
-        product,
-      }),
-    },
-  );
+  const response = await httpClient.fetchWithAuth(`${import.meta.env.BASE_API_URL}/chat`, {
+    method: "POST",
+    body: JSON.stringify({
+      messages,
+      product,
+    }),
+  });
   const message = await response.json();
+
   return message;
 }
 
-export function ProductChat(props: { product: products.Product }) {
-  const [isWaitingForReply, setIsWaitingForReply] = React.useState(false);
-  const [messageDraft, setMessageDraft] = React.useState<string | undefined>(
-    undefined,
-  );
-  const [chatMessages, setChatMessages] = React.useState<Message[]>([]);
+export const ProductChat: FC<{ product: products.Product }> = ({ product }) => {
+  const [isWaitingForReply, setIsWaitingForReply] = useState<boolean>(false);
+  const [messageDraft, setMessageDraft] = useState<string>();
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
   const submitMessage = useCallback(async () => {
-    const newMessage: Message = {
-      author: "User",
+    const newMessage: ChatMessage = {
       text: messageDraft ?? "",
+      author: "User",
     };
     const messages = chatMessages.concat(newMessage);
+
     setChatMessages((state) => state.concat(newMessage));
     setMessageDraft("");
     setIsWaitingForReply(true);
+
     const { message: text } = await submitProductChatMessage(
       messages,
-      props.product,
+      product,
     );
+
     setChatMessages((messages) =>
       messages.concat({
         author: "Business Buddy",
@@ -55,13 +50,13 @@ export function ProductChat(props: { product: products.Product }) {
       }),
     );
     setIsWaitingForReply(false);
-  }, [chatMessages, messageDraft, props.product]);
+  }, [chatMessages, messageDraft, product]);
 
   return (
     <Card>
       <Card.Header
-        title={`Ask Business Buddy about "${props.product.name}"`}
-        subtitle={`SKU: ${props.product.sku}`}
+        title={`Ask Business Buddy about "${product.name}"`}
+        subtitle={`SKU: ${product.sku}`}
       />
       <Card.Content>
         {chatMessages.map((message) => (
@@ -73,8 +68,12 @@ export function ProductChat(props: { product: products.Product }) {
         ))}
         <Box width="100%" marginTop="SP6">
           <Input
-            placeholder="Ask Business Buddy something..."
             className={styles.userInput}
+            onChange={(e) => setMessageDraft(e.target.value)}
+            onEnterPressed={submitMessage}
+            disabled={isWaitingForReply}
+            value={messageDraft}
+            placeholder="Ask Business Buddy something..."
             prefix={
               isWaitingForReply && (
                 <Input.Affix>
@@ -87,10 +86,6 @@ export function ProductChat(props: { product: products.Product }) {
                 <Icons.Send onClick={submitMessage} />
               </Input.IconAffix>
             }
-            disabled={isWaitingForReply}
-            onChange={(e) => setMessageDraft(e.target.value)}
-            value={messageDraft}
-            onEnterPressed={submitMessage}
           />
         </Box>
       </Card.Content>

@@ -1,34 +1,28 @@
+import React, { useCallback, useMemo, useState, type FC } from "react";
+import { useQuery } from "react-query";
+import { products } from "@wix/stores";
 import {
   AutoComplete,
   Card,
   Layout,
   Cell,
-  Divider,
   Page,
   EmptyState,
 } from "@wix/design-system";
 import "@wix/design-system/styles.global.css";
-import { products } from "@wix/stores";
-import React, { useCallback, useMemo } from "react";
-import { useQuery } from "react-query";
 import { withProviders } from "../../withProviders";
 import { ProductChat } from "./ProductChat";
-import "./styles.global.css";
-import { useWixModules } from "@wix/sdk-react";
 
-export default withProviders(function ProductsPage() {
-  const [currentProduct, setCurrentProduct] = React.useState<
-    products.Product | undefined
-  >();
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const { queryProducts } = useWixModules(products);
+const ProductsPage: FC = () => {
+  const [currentProduct, setCurrentProduct] = useState<products.Product>();
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const {
     data: storeProducts,
     isLoading,
     error,
   } = useQuery(["products", searchQuery], () =>
-    queryProducts().startsWith("name", searchQuery).find(),
+    products.queryProducts().startsWith("name", searchQuery).find(),
   );
 
   const options = useMemo(
@@ -67,7 +61,7 @@ export default withProviders(function ProductsPage() {
         subtitle="Please try again later"
       />
     );
-  }
+  };
 
   return (
     <Page>
@@ -79,13 +73,13 @@ export default withProviders(function ProductsPage() {
               <Card.Header title="Select a product to chat about" />
               <Card.Content>
                 <AutoComplete
-                  placeholder="Select a product to chat about"
                   size="large"
                   status={isLoading ? "loading" : undefined}
                   options={options}
                   onSelect={handleSelect}
                   onChange={handleChange}
                   value={currentProduct?.name ?? undefined}
+                  placeholder="Select a product to chat about"
                 />
               </Card.Content>
             </Card>
@@ -100,4 +94,6 @@ export default withProviders(function ProductsPage() {
       </Page.Content>
     </Page>
   );
-});
+};
+
+export default withProviders(ProductsPage);

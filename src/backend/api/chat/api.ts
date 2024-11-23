@@ -1,13 +1,9 @@
 import { appInstances } from "@wix/app-management";
-import { getBehaviorDirective } from "../../database";
 import OpenAI from "openai";
+import { getBehaviorDirective } from "../../database";
+import type { ChatMessage } from '../../../types';
 
-interface ChatMessage {
-  author: "Business Buddy" | "User";
-  text: string;
-}
-
-interface ChatRequestBody {
+type ChatRequestBody = {
   messages: ChatMessage[];
   product: string;
 }
@@ -22,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const openai = new OpenAI({
-      apiKey: "", // You can store your OpenAi API key here
+      apiKey: "", // Use your OpenAi API key here
     });
 
     const behaviorDirective = await getBehaviorDirective(instance.instanceId);
